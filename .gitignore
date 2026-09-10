@@ -1,0 +1,7 @@
+# Remember 插件的本地会话数据，不属于仓库内容
+.remember/
+
+# 打包产物：由 explain-project/SKILL.md 现打，不进版本库
+*.skill
+
+.DS_Store
