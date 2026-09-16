@@ -8,6 +8,7 @@
 |---|---|
 | [`map-system`](skills/map-system/SKILL.md) | 划定一个系统由哪些仓库 / 子项目组成：产出系统组成表（谁属于这个系统、哪些读得到、本次聚焦哪一块），再交棒给 `explain-project` |
 | [`explain-project`](skills/explain-project/SKILL.md) | 带新人深入**一个**仓库：按「项目定位 → 代码地图 → 对外接口 → 分层架构 → 核心链路 → 数据模型与黑话 → 一次真实请求 → 技术方案 → 关键源码」分阶段讲透 |
+| [`new-project-workflow`](skills/new-project-workflow/SKILL.md) | 从零开发一个新系统的标准工作流：需求 → 产品 → 架构 → 方案，每一步与用户确认后才写代码 |
 
 ## 安装
 
