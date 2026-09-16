@@ -10,6 +10,7 @@
 | [`explain-project`](skills/explain-project/SKILL.md) | 带新人深入**一个**仓库：按「项目定位 → 代码地图 → 对外接口 → 分层架构 → 核心链路 → 数据模型与黑话 → 一次真实请求 → 技术方案 → 关键源码」分阶段讲透 |
 | [`new-project-workflow`](skills/new-project-workflow/SKILL.md) | 从零开发一个新系统的标准工作流：需求 → 产品 → 架构 → 方案，每一步与用户确认后才写代码 |
 | [`sediment-to-claude-md`](skills/sediment-to-claude-md/SKILL.md) | 把项目里得出的通用经验沉淀进全局 CLAUDE.md，按通用 / 特定语言 / 工作流程三类归位 |
+| [`git-workflow`](skills/git-workflow/SKILL.md) | Git 协作规范：分支模型、commit、PR、review，以及 rebase 与推送 main 的边界 |
 
 ## 安装
 
