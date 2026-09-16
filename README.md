@@ -11,6 +11,7 @@
 | [`new-project-workflow`](skills/new-project-workflow/SKILL.md) | 从零开发一个新系统的标准工作流：需求 → 产品 → 架构 → 方案，每一步与用户确认后才写代码 |
 | [`sediment-to-claude-md`](skills/sediment-to-claude-md/SKILL.md) | 把项目里得出的通用经验沉淀进全局 CLAUDE.md，按通用 / 特定语言 / 工作流程三类归位 |
 | [`git-workflow`](skills/git-workflow/SKILL.md) | Git 协作规范：分支模型、commit、PR、review，以及 rebase 与推送 main 的边界 |
+| [`mine-achievements`](skills/mine-achievements/SKILL.md) | 从日常工作里挖简历产出：平时把需求、取舍、坑、bug、优化攒进素材库，需要时从会话记录和 git 提交提炼成带证据的 bullet |
 
 ## 安装
 
