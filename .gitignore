@@ -5,3 +5,6 @@
 *.skill
 
 .DS_Store
+
+# skill 的本地补充（如 git-workflow 里一律 squash 的团队仓库名单），含内部信息，不进版本库
+local.md
