@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Git 协作规范：分支怎么建、commit 怎么写、PR 怎么提和描述、code review 看什么、分支和主干冲突怎么解、main 能不能推。凡是要建分支、写 commit message、提 PR、写 PR 描述、做 code review、处理分支与主干的冲突、推送代码时，务必使用本技能——哪怕只是"帮我提交一下 / 推上去 / 开个 PR"。英文的 "commit this" / "open a PR" / "review this PR" / "rebase onto main" / "push" 同样适用。仓库自己有约定（PR 模板、CONTRIBUTING、历来的提交方式）时以仓库为准，本技能补足仓库没写的部分。
+description: Git 协作规范：分支怎么建、commit 怎么写、PR 怎么提和描述、PR 用什么方式合入、code review 看什么、分支和主干冲突怎么解、main 能不能推。凡是要建分支、写 commit message、提 PR、写 PR 描述、合入 PR、做 code review、处理分支与主干的冲突、推送代码时，务必使用本技能——哪怕只是"帮我提交一下 / 推上去 / 开个 PR / 合入"。英文的 "commit this" / "open a PR" / "merge this PR" / "review this PR" / "rebase onto main" / "push" 同样适用。仓库自己有约定（PR 模板、CONTRIBUTING、历来的提交方式）时以仓库为准，本技能补足仓库没写的部分。
 ---
 
 # Git 协作规范
@@ -78,6 +78,13 @@ feat(videos): 添加模型ID有效性校验
    - 变更内容合理拆分 commit
    - 代码通过 lint（原文：`go vet`；前端项目换成对应的 eslint / tsc 等）
 5. PR 标题同样遵循 commit 规范：`feat(user): 新增用户查询 API`
+
+## 合入 PR：指定的团队仓库用 squash
+
+- **适用范围**：按远程仓库判断，只适用于同目录 `local.md` 里列出的仓库，不看本地目录名和 worktree 名。`local.md` 不进版本库，没有这个文件就当名单为空。其他远程仓库不适用，合入前先问用户用哪种方式。
+- **这些仓库合入 PR 一律 squash**：`gh pr merge <编号> --squash`，不用 merge commit，也不用 rebase merge。
+- **不要从 git 历史推断合入方式**。同一个仓库里常有几种方式并存，按个人习惯来；只看几个提交就认定「惯例」很容易看错。2026-10-09 合一个团队仓库的 PR 时只看了 main 最近 3 个提交，误判成 merge commit。
+- 这条是用户定的，Confluence 原文里没有。
 
 ## PR 描述五段式
 
