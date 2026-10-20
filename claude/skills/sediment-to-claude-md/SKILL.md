@@ -21,7 +21,7 @@ description: 把项目里得出的通用、可复用的经验沉淀进全局 ~/.
 |---|---|---|
 | **通用的**工作范式、踩过的坑、得出的经验 | CLAUDE.md 里开一个 `##` 子标签（已有合适的就加进去），子标签下分点写 | 每个会话常驻加载 |
 | **特定语言的**坑和范式 | 用语言做标签，单独存成 `~/.claude/refs/<语言>.md`（已有就追加）；CLAUDE.md「引用的文档」里留一行引用，写明触发条件 | 只有碰到这门语言时才去读 |
-| **特定的工作流程**（某一类任务从头到尾怎么做） | 写成一个 skill：`~/Downloads/claude-skills/skills/<name>/SKILL.md`，description 写清触发场景；CLAUDE.md 里**不加引用** | skill 的 description 自动出现在可用列表里，命中场景时加载 |
+| **特定的工作流程**（某一类任务从头到尾怎么做） | 写成一个 skill：`~/Downloads/agent-skills/claude/skills/<name>/SKILL.md`，description 写清触发场景；CLAUDE.md 里**不加引用** | skill 的 description 自动出现在可用列表里，命中场景时加载 |
 
 分类拿不准时这样判断：**不分场景**都该遵守的，是通用的；**只在写某门语言时**才用得上的，是特定语言的；描述的是**某一类任务完整怎么做**的，是工作流程。
 
