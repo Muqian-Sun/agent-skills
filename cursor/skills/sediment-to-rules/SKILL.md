@@ -7,7 +7,9 @@ description: 把项目里得出的通用、可复用的经验沉淀进 Cursor �
 
 全局规则分两处：通用的部分在 Cursor Settings 的 **User Rules**（标题「通用工作约束」那一条），每个会话都会加载，写进去的东西影响所有项目；按场景才用得上的部分是 `~/.cursor/skills/` 下的 skill。所以要做对两件事：**只放真正跨项目通用的**，**放对位置**。否则 User Rules 会越长越乱，该生效的规则被淹没；只跟某门语言有关的内容，还会在每个会话里白白占上下文。
 
-不再使用 `~/.cursor/rules/*.mdc`：那里的文件只留在本机，Cloud Agent 读不到。User Rules 存在账号上，`~/.cursor/skills/` 打开 Sync Skills for Cloud Agents 后会同步，两边本地和云端都能生效。
+不再使用 `~/.cursor/rules/*.mdc`：那里的文件只留在本机，Cloud Agent 读不到。User Rules 存在账号上，本地和云端都会加载。
+
+`~/.cursor/skills/` 下的每个 skill 都是软链，指向仓库 `Muqian-Sun/claude-skills` 的本地克隆 `~/Downloads/claude-skills/cursor/skills/<name>`。改 skill 就是改这个仓库里的文件。Cloud Agent 按 User Rules 里的指令从这个仓库的 main 拉取 skill，所以改完要推上去，云端才拿得到。
 
 这是 Claude Code 全局 `~/.claude/CLAUDE.md` 在 Cursor 里的对应物。本技能只改 Cursor 这边，不去改 `~/.claude/CLAUDE.md`。
 
@@ -41,6 +43,9 @@ description: 把项目里得出的通用、可复用的经验沉淀进 Cursor �
 - **`shell-pitfalls` 的条目只在一边测过，就只写那一边**。标「实测」时写清在哪个系统上测的；另一边没测就写「Linux 未实测」或「macOS 未实测」，不要从一边推断另一边。本机有 docker，可以用本地的 Ubuntu 镜像实测 Linux 行为。容器默认以 root 运行，涉及权限、目录创建的要加 `--user 1000:1000`，否则 root 能建任意目录，会测出和真实环境不同的结果
 - 新语言 skill 的 frontmatter 照已有的 `python-pitfalls` / `go-pitfalls` 写。`description` 用第三人称，写清做什么、什么时候用
 - 改 User Rules 用 `cursor_dialog` 的 `update`：先 `list` 拿到「通用工作约束」的 `id`，`content` 传**改完后的全文**（整条替换，不是追加）。改完再 `list` 一遍，确认改动在、其余段落没丢
+- **新建 skill 建在仓库里**：在 `~/Downloads/claude-skills/cursor/skills/<name>/` 下建，再跑 `~/Downloads/claude-skills/cursor/install.sh --link` 把它挂进 `~/.cursor/skills/`。不要直接在 `~/.cursor/skills/` 下建普通目录——那样它不在仓库里，云端拿不到
+- **改完 skill 提交并推送**：按 `git-workflow` 在 `~/Downloads/claude-skills` 里提交、推送 main
+- **新增、删除或改名 skill 时**，同步改「通用工作约束」里「Cloud Agent 里的 skill」一节的列表——云端的 skill 不进 skill 列表，只能靠那张表按场景去读
 
 ## 改之前先给用户看
 
@@ -56,6 +61,7 @@ description: 把项目里得出的通用、可复用的经验沉淀进 Cursor �
 - ❌ 给 `shell-pitfalls` 设了 `paths`——设了就只有匹配文件在上下文里才出现，跑命令时用不上
 - ❌ 工作流程写成规则、再在「通用工作约束」里引用——那是 skill 的活：skill 的描述会自动出现在可用列表里
 - ❌ 写进 `~/.cursor/rules/*.mdc`——只留在本机，Cloud Agent 读不到
+- ❌ 在 `~/.cursor/skills/` 下直接建普通目录的 skill，或改完 skill 不推送——云端拿不到
 - ❌ `shell-pitfalls` 的条目不标 macOS / Linux，或者只在 macOS 上测过就写成两边通用
 - ❌ 不查重，同一条经验换个说法又加一遍
 - ❌ 没给用户看就改全局规则
