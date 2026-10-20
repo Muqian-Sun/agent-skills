@@ -3,14 +3,28 @@
 我自用的 AI 编程助手 Skill 集合，按产品分目录：
 
 ```text
-claude/skills/<name>/SKILL.md   Claude Code 版
-cursor/skills/<name>/SKILL.md   Cursor 版
-cursor/install.sh               Cursor 版的安装脚本
+claude/CLAUDE.md                Claude Code 全局规范（~/.claude/CLAUDE.md）
+claude/refs/<语言>.md           CLAUDE.md 引用的语言与环境文档（~/.claude/refs/）
+claude/skills/<name>/SKILL.md   Claude Code 版 skill
+cursor/user-rules.md            Cursor User Rules「通用工作约束」的全文副本
+cursor/skills/<name>/SKILL.md   Cursor 版 skill
+cursor/install.sh               Cursor 版 skill 的安装脚本
 ```
 
 同名 skill 在各产品下各自独立维护，内容可以不一样（比如 `git-workflow`）。
 
 ## Claude Code
+
+### 全局规范
+
+`claude/CLAUDE.md` 是全局规范，`claude/refs/` 是它「引用的文档」一节里按触发条件读的语言与环境文档。本机用软链安装，`CLAUDE.md` 里写的 `~/.claude/refs/...` 路径不用改：
+
+```bash
+ln -s "$PWD/claude/CLAUDE.md" ~/.claude/CLAUDE.md
+ln -s "$PWD/claude/refs" ~/.claude/refs
+```
+
+### Skill
 
 | Skill | 干什么用的 |
 |---|---|
@@ -21,7 +35,7 @@ cursor/install.sh               Cursor 版的安装脚本
 | [`git-workflow`](claude/skills/git-workflow/SKILL.md) | Git 协作规范：分支模型、commit、PR、review，以及 rebase 与推送 main 的边界 |
 | [`mine-achievements`](claude/skills/mine-achievements/SKILL.md) | 从日常工作里挖简历产出：平时把需求、取舍、坑、bug、优化攒进素材库，需要时从会话记录和 git 提交提炼成带证据的 bullet |
 
-### 安装
+#### 安装
 
 两个 skill 配套使用：`map-system` 先划范围，`explain-project` 再深入其中一个仓。只装一个也能用——已知边界时可以直接用 `explain-project`。
 
@@ -42,14 +56,14 @@ cp -r claude/skills/* ~/.claude/skills/
 - `~/.claude/skills/` 下的**符号链接会被正常发现**，所以本地开发可以 `ln -s "$PWD/claude/skills/explain-project" ~/.claude/skills/explain-project`，改仓库即改生效的 skill
 - skill 的**正文是会话启动时的快照**（description 会在会话内刷新，正文不会），所以改完 SKILL.md 要**新开一个会话**才真正生效
 
-### 新增一个 skill
+#### 新增一个 skill
 
 1. 建目录 `claude/skills/<name>/`，写 `SKILL.md`
 2. frontmatter 里 `description` 要写清**什么时候该触发**——这是模型唯一的选用依据，写模糊了就不会被用上；`name` 按约定与目录名保持一致（`validate` 不检查这条，实测名字对不上也能过）
 3. 在上面的目录表里加一行
 4. `claude plugin validate --strict claude` 过一遍再提交（不加 `--strict` 时缺 frontmatter 只报警告、退出码仍是 0）
 
-### 打包成 .skill
+#### 打包成 .skill
 
 ```bash
 cd claude/skills && zip -r ../../<name>.skill <name>
@@ -59,6 +73,12 @@ cd claude/skills && zip -r ../../<name>.skill <name>
 
 ## Cursor
 
+### 全局规范
+
+Cursor 的全局规范存在账号的 User Rules 里，不是文件，不能软链。`cursor/user-rules.md` 是「通用工作约束」那一条的全文副本：改 User Rules 时把同样的全文写进这个文件并提交，两边保持逐字一致。换机器或重建时，把文件内容整段贴回 Cursor Settings → Rules。
+
+### Skill
+
 | Skill | 干什么用的 |
 |---|---|
 | `explain-project`、`map-system`、`new-project-workflow`、`git-workflow` | 与 Claude Code 同名 skill 对应的 Cursor 版 |
@@ -67,7 +87,7 @@ cd claude/skills && zip -r ../../<name>.skill <name>
 | [`go-pitfalls`](cursor/skills/go-pitfalls/SKILL.md) | Go 的坑与范式，`paths: "**/*.go"` |
 | [`shell-pitfalls`](cursor/skills/shell-pitfalls/SKILL.md) | Shell 与本机环境的坑，条目按 macOS / Linux 标注 |
 
-### 安装
+#### 安装
 
 本机用软链安装，改仓库即改生效的 skill（`~/.cursor/skills` 下已有同名普通目录时会跳过并以退出码 1 结束，先移走再重跑）：
 
