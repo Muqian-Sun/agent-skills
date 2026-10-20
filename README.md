@@ -41,6 +41,33 @@ cp -r skills/* ~/.claude/skills/
 3. 在上面的目录表里加一行
 4. `claude plugin validate .` 过一遍再提交
 
+## Cursor 版本
+
+`cursor/skills/` 是同一批 skill 的 Cursor 版本，外加只在 Cursor 用的几个。它和 `skills/` 各自独立维护，同名的内容可以不一样（比如 `git-workflow`）。
+
+| Skill | 干什么用的 |
+|---|---|
+| `explain-project`、`map-system`、`new-project-workflow`、`git-workflow` | 与上表同名 skill 的 Cursor 版 |
+| [`sediment-to-rules`](cursor/skills/sediment-to-rules/SKILL.md) | 把通用经验沉淀进 Cursor 的 User Rules 和 `*-pitfalls` skill |
+| [`python-pitfalls`](cursor/skills/python-pitfalls/SKILL.md) | Python 的坑与范式，`paths: "**/*.py"` |
+| [`go-pitfalls`](cursor/skills/go-pitfalls/SKILL.md) | Go 的坑与范式，`paths: "**/*.go"` |
+| [`shell-pitfalls`](cursor/skills/shell-pitfalls/SKILL.md) | Shell 与本机环境的坑，条目按 macOS / Linux 标注 |
+
+本机用软链安装，改仓库即改生效的 skill（`~/.cursor/skills` 下已有同名普通目录时会跳过并以退出码 1 结束，先移走再重跑）：
+
+```bash
+cursor/install.sh --link
+```
+
+Cloud Agent 里用复制安装：
+
+```bash
+git clone --depth 1 https://github.com/Muqian-Sun/claude-skills /tmp/claude-skills
+bash /tmp/claude-skills/cursor/install.sh
+```
+
+Cloud Agent 启动后才装上的 skill 不会进它的 skill 列表，要靠 User Rules 里的指令让它按场景去读 `~/.cursor/skills/<name>/SKILL.md`。按 Cursor 3.25.9 的代码，「Sync Skills for Cloud Agents」搬运 skill 时只处理普通目录、跳过软链，所以软链安装的 skill 不会被它同步。
+
 ## 打包成 .skill
 
 ```bash
