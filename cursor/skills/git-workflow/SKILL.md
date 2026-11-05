@@ -68,12 +68,13 @@ feat(videos): 添加模型ID有效性校验
 
 ## Cursor Agent 提交身份
 
-Cursor Cloud Agent 在提交时会把 author 设成 Cursor Agent，并常在 message 里加上人类的 `Co-authored-by`；GitHub squash 合入时又会把 `Co-authored-by: Cursor Agent` 写进 main。这不是仓库的 git hook，是 Cursor / GitHub 的默认行为。
+Cursor Cloud Agent 在提交时会把 author 设成 Cursor Agent，并常在 message 里加上人类的 `Co-authored-by`（例如 `Co-authored-by: muqian882 <…>`）；GitHub squash 合入时又会把 `Co-authored-by: Cursor Agent` 或其它 `Co-authored-by` 写进 main。这不是仓库的 git hook，是 Cursor / GitHub 的默认行为。
 
-- **author / committer 用人类身份**：例如 `muqian <1175473269@qq.com>`。不要用 `Cursor Agent` / `cursoragent@cursor.com`。
-- **message 里不要写** `Co-authored-by: Cursor` 或 `Co-authored-by: Cursor Agent`。
-- **squash 合入时显式写标题和正文**：`gh pr merge <编号> --squash -t "..." -b "..."`，让合入提交的 body 不含 Cursor 的 trailer。不要依赖 GitHub 自动生成的 squash message。
-- **不为 scrub 历史去改写**：除非用户明确要求，不要为了清掉旧的 Cursor 痕迹去做 history rewrite。
+- **author / committer 用人类身份**：`muqian <1175473269@qq.com>`。不要用 `Cursor Agent` / `cursoragent@cursor.com`。
+- **禁止任何 `Co-authored-by` trailer**：message 里不要写 `Co-authored-by: Cursor`、`Co-authored-by: Cursor Agent`、`Co-authored-by: muqian882 …`，也不要写 Agent 自动塞进的其它人类 `Co-authored-by`。一律不写，没有例外。
+- **squash 合入时显式写标题和正文**：`gh pr merge <编号> --squash -t "..." -b "..."`。`-t` / `-b` 的正文必须**省略全部** `Co-authored-by`（包括 Cursor 和 muqian882）。不要依赖 GitHub 自动生成的 squash message。
+- **公开仓库不宣传 Cursor**：公开的 travel-buddy 等仓库不要放提及 Cursor 的 `AGENTS.md` / README 引导。面向 Agent 的 Cursor 用法写在本私有 skills 仓库即可。
+- **不为 scrub 历史去改写**：除非用户明确要求（含清掉 Cursor Agent author / `Co-authored-by`，以及清掉 `muqian882` trailer），不要主动改写历史。
 
 ## PR 流程
 
