@@ -66,6 +66,15 @@ feat(videos): 添加模型ID有效性校验
 
 开发过程中保持小粒度 commit：尽可能原子，一个 commit 完成一个相对独立的修改。
 
+## Cursor Agent 提交身份
+
+Cursor Cloud Agent 在提交时会把 author 设成 Cursor Agent，并常在 message 里加上人类的 `Co-authored-by`；GitHub squash 合入时又会把 `Co-authored-by: Cursor Agent` 写进 main。这不是仓库的 git hook，是 Cursor / GitHub 的默认行为。
+
+- **author / committer 用人类身份**：例如 `muqian <1175473269@qq.com>`。不要用 `Cursor Agent` / `cursoragent@cursor.com`。
+- **message 里不要写** `Co-authored-by: Cursor` 或 `Co-authored-by: Cursor Agent`。
+- **squash 合入时显式写标题和正文**：`gh pr merge <编号> --squash -t "..." -b "..."`，让合入提交的 body 不含 Cursor 的 trailer。不要依赖 GitHub 自动生成的 squash message。
+- **不为 scrub 历史去改写**：除非用户明确要求，不要为了清掉旧的 Cursor 痕迹去做 history rewrite。
+
 ## PR 流程
 
 1. 建分支：`git checkout -b feat/add-user-service`
@@ -82,10 +91,10 @@ feat(videos): 添加模型ID有效性校验
 ## 合入 PR：只用 squash 或 rebase，不用 merge commit
 
 - **任何仓库都不用 merge commit 合入**，`gh pr merge` 不带 `--merge`。只用 `--squash` 或 `--rebase`。
-- **同目录 `local.md` 里列出的仓库一律 squash**：`gh pr merge <编号> --squash`。按远程仓库判断，不看本地目录名和 worktree 名。`local.md` 不进版本库，没有这个文件就当名单为空。
+- **同目录 `local.md` 里列出的仓库一律 squash**：`gh pr merge <编号> --squash -t "..." -b "..."`（标题和正文显式传入，见「Cursor Agent 提交身份」）。按远程仓库判断，不看本地目录名和 worktree 名。`local.md` 不进版本库，没有这个文件就当名单为空。
 - **其他仓库按 PR 里的提交选**：
   - 每个提交都是原子的、message 符合上面的 commit 规范、单独留在 main 上有意义 → `--rebase`。
-  - 有 `wip`、`fix typo`、「按 review 修改」这类过程提交，或者整个 PR 本来就是一件事 → `--squash`，squash 后的标题和 body 按 commit 规范写。
+  - 有 `wip`、`fix typo`、「按 review 修改」这类过程提交，或者整个 PR 本来就是一件事 → `--squash`，squash 后的标题和 body 按 commit 规范写，并用 `-t` / `-b` 显式传入。
 - 合入前用 `gh repo view --json squashMergeAllowed,rebaseMergeAllowed` 看仓库允许哪种。选中的那种被禁用了就换另一种，两种都禁用就停下来问，不要退回 merge commit。
 - **不要从 git 历史推断合入方式**。main 上已有的 merge commit 不代表应该继续用 merge commit。2026-10-09 合一个团队仓库的 PR 时只看了 main 最近 3 个提交，误判成 merge commit。
 - 这条是用户定的，Confluence 原文里没有。
